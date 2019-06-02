@@ -1,0 +1,1 @@
+web: gunicorn bondlog.wsgi --log-file -

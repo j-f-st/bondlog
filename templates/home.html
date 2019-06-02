@@ -1,0 +1,61 @@
+{% extends '_layout.html' %}
+{% block content %}
+	<div class="content-all"><!-- コンテンツ全ラッパー -->
+		<div class="posts-all"><!-- ポスト部全ラッパー -->
+
+			<!-- post関連メッセージ -->
+			<div class="search-result">
+				<p><a href="/">{{ message }}</a></p>
+			</div>
+
+		    {% for post in posts %}
+			
+		    <div class="post-each"><!-- 個別コンテンツラッパー -->
+				{% if post.blog_content %}
+		    	<!-- tweet部 -->
+				<div class="post-tweetpart">
+				  	<div class="post-tweet-header">
+				  		<p><a href="{{ post.tweet_origin }}">tweet</a>-date : {{ post.tweet_date }}</p>
+				  	</div>
+				  	<h6 class="post-tweet-content"><a href="{% url 'detail' key=post.tweet_id %}">{{ post.tweet_words }} 　... 記事ページ</a></h6>
+				</div>
+
+				<!-- blog部 -->
+				<div class="post-blogpart">
+				  	<p style="font-size: 14px;">blog-post : {{ post.blog_published_date }}</p>
+					
+					{% if post.blog_update_date %}
+				  	<p style="font-size: 14px;">blog-update : {{ post.blog_update_date }}</p>
+				  	{% endif %}
+				  	
+				  	<div class="post-blog-content">{{ post.blog_content_to_markdown | safe }}</div>
+
+				  	{% if post.blog_category %}
+				  	<p class="post-blog-category">カテゴリ : <span>{{ post.blog_category }}</span></p>
+					{% endif %}
+
+					{% if post.blog_tag %}
+				  	<p class="post-blog-tag">タグ : <span>{{ post.blog_tag }}</span></p>
+					{% endif %}
+				</div>
+				{% endif %}
+    		</div>
+
+			{% endfor %}
+
+		</div><!-- posts-all -->
+
+		<!-- side部 -->
+		<div class="side">
+
+			<!-- 記事検索窓(header表示) -->
+			<div class="all-search-window">
+					<form action='/search' method='post'>
+						{% csrf_token %}
+							<div class='form-group'>
+									{{ searchform }}
+									<input type="submit" value="search" style="font-size: 18px; font-weight: 500; color: #eee; cursor: pointer;">
+							</div>
+					</form>
+			</div>			
+{% endblock %}

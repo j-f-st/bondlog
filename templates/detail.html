@@ -1,0 +1,51 @@
+{% extends '_layout.html' %}
+{% block content %}
+	<div class="content-all"><!-- コンテンツ全ラッパー -->
+		<div class="post-one-precise"><!-- ポスト部全ラッパー -->
+	   			
+			<!-- tweet部 -->
+			<div class="post-tweetpart-mainpage">
+				<h6>{{ detail.tweet_words }}</h6>
+				<div style="text-align: right;">
+			  		<p><a href="{{ detail.tweet_origin }}" style="color: #93b191;">tweet</a>-date : {{ detail.tweet_date }}</p>
+				</div>
+			</div>
+
+			<!-- blog部 -->
+			<div class="post-blogpart-mainpage">
+			{% if detail.blog_content %}
+				<div class="post-blogpart-mainpage-datemanage">
+					<p>投稿日 : {{ detail.blog_published_date }}</p>
+
+					{% if detail.blog_update_date %}
+					<p style="font-weight: 800;">最終更新 : {{ detail.blog_update_date }}</p>
+					{% endif %}
+				</div>
+
+				<div class="post-blog-content">{{ detail.blog_content_to_markdown | safe }}</div>
+
+				<p class="post-blog-category">カテゴリ : <span>{{ detail.blog_category }}</span></p>
+				<p class="post-blog-tag">タグ : <span>{{ detail.blog_tag }}</span></p>
+			{% endif %}
+			</div>
+
+			<div style="text-align: center; margin-top: 90px;">
+				<a href="/" style="background: #eeeeeeaa; padding: 6px 12px; text-decoration: none; font-weight: 800; color: #333434fc;">記事一覧へ戻る</a>
+			</div>
+
+		</div><!-- post-one-precise -->
+
+		<!-- side部開始 -->
+		<div class="side">
+
+			<!-- 記事検索窓(header表示) -->
+			<div class="all-search-window">
+					<form action='/search' method='post'>
+						{% csrf_token %}
+							<div class='form-group'>
+									{{ searchform }}
+									<input type="submit" value="search" style="font-size: 18px; font-weight: 500; color: #eee; cursor: pointer;">
+							</div>
+					</form>
+			</div>
+{% endblock %}
